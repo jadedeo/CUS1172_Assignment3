@@ -32,6 +32,7 @@ input[type="radio"], input[type="checkbox"] {
   border-radius: 8pt;
   background-color: #f2f2f2;
   min-width: 70%;
+  border: 5px black solid;
 }
 
 .tfBtn{
@@ -64,6 +65,7 @@ input[type="radio"], input[type="checkbox"] {
   min-height: 400px;
   display: flex;
   align-items: center;
+  border: 5px black solid;
 }
 
 #timeBox{
@@ -74,6 +76,7 @@ input[type="radio"], input[type="checkbox"] {
   text-align: center;
   padding: 15px;
   min-width: 20%;
+  border: 5px black solid;
 }
 
 .quizButtonsContainer{

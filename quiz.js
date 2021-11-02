@@ -72,6 +72,35 @@ function pad(val) {
   }
 }
 
+function positiveFeedbackView() {
+  console.log("HERE");
+    render_widget(appState.current_model, "#feedback_view_positive")
+    //update_view(appState);
+    if(appState.current_question == (appState.question_count - 1)) {
+        setTimeout(() => {
+            appState.current_stage = "#end_view"
+        }, 1000);
+    } else {
+        setTimeout(() => {
+            setQuestionView(appState);
+        }, 1000);
+    }
+}
+
+function negativeFeedbackView() {
+    render_widget(appState.current_model, "#feedback_view_negative")
+    if(appState.current_question == (appState.question_count - 1)) {
+        setTimeout(() => {
+            appState.current_stage = "#end_view"
+        }, 1000);
+    } else {
+        setTimeout(() => {
+            setQuestionView(appState);
+        }, 1000);
+    }
+}
+
+
 /**
 handle all events in question widget
 **/
@@ -122,14 +151,19 @@ function handle_widget_event(e) {
         if(isCorrect){
           console.log("CORRECT");
           appState.total_correct ++;
+          positiveFeedbackView()
+          //alert("YAY!");
         }
         else{
           console.log("INCORRECT");
           appState.total_incorrect ++;
+          negativeFeedbackView();
+          //alert("BOOOOOO!");
         }
         //console.log(appState);
-        updateQuestion(appState);
 
+
+        updateQuestion(appState);
         setQuestionView(appState);
         update_view(appState);
     }
@@ -155,10 +189,12 @@ function handle_widget_event(e) {
        if(isCorrect){
          console.log("CORRECT");
          appState.total_correct ++;
+         alert("YAY!");
        }
        else{
          console.log("INCORRECT");
          appState.total_incorrect ++;
+         alert("BOOOOOO!");
        }
 
        updateQuestion(appState);
@@ -178,10 +214,13 @@ function handle_widget_event(e) {
        if(isCorrect){
          console.log("CORRECT");
          appState.total_correct ++;
+         alert("YAY!");
        }
        else{
          console.log("INCORRECT");
          appState.total_incorrect ++;
+         alert("BOOOOOO!");
+
        }
 
        updateQuestion(appState);
@@ -203,10 +242,13 @@ function handle_widget_event(e) {
            if(isCorrect){
              console.log("CORRECT");
              appState.total_correct ++;
+             alert("YAY!");
            }
            else{
              console.log("INCORRECT");
              appState.total_incorrect ++;
+             alert("BOOOOOO!");
+
            }
 
            updateQuestion(appState);
@@ -234,10 +276,13 @@ function handle_widget_event(e) {
           if(isCorrect){
             console.log("CORRECT");
             appState.total_correct ++;
+            alert("YAY!");
           }
           else{
             console.log("INCORRECT");
             appState.total_incorrect ++;
+            alert("BOOOOOO!");
+
           }
 
           updateQuestion(appState);
@@ -311,7 +356,7 @@ function check_user_response(user_answer, model) {
 }
 
 function updateQuestion(appState) {
-    if (appState.current_question < 4) {
+    if (appState.current_question < 19) {
       appState.current_question = appState.current_question + 1;
       fetch_question(appState.current_question+1, appState.current_quiz);
     }
@@ -343,6 +388,14 @@ function setQuestionView(appState) {
   else if (appState.current_model.questionType == "multi_text_input") {
     appState.current_view = "#question_view_multi_text_input";
   }
+  /*
+  else if (appState.current_model.questionType == "feedback_view_positive") {
+    appState.current_view = "#feedback_view_positive";
+  }
+  else if (appState.current_model.questionType == "feedback_view_negative") {
+    appState.current_view = "#feedback_view_negative";
+  }
+  */
 }
 
 function update_view(appState) {
@@ -352,8 +405,33 @@ function update_view(appState) {
 }
 
 const render_widget = (model,view) => {
+  //console.log("B:" + view);
+  if(view == "#feedback_view_positive"){
+
+    console.log("A:" + model);
+    console.log("B:" + view);
+  }
+
   // Get the template HTML
   template_source = document.querySelector(view).innerHTML
+
+  // Handlebars compiles the above source into a template
+  var template = Handlebars.compile(template_source);
+  // apply the model to the template.
+  var html_widget_element = template({...model,...appState})
+  if(view == "#feedback_view_positive"){
+    console.log("HTML:");
+    console.log(html_widget_element);
+  }
+  return html_widget_element
+}
+
+/*
+const render_widget = (model,view) => {
+
+  // Get the template HTML
+  template_source = document.querySelector(view).innerHTML
+  console.log(template_source);
   // Handlebars compiles the above source into a template
   var template = Handlebars.compile(template_source);
   // apply the model to the template.
@@ -361,3 +439,4 @@ const render_widget = (model,view) => {
 
   return html_widget_element
 }
+*/

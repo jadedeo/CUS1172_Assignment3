@@ -107,7 +107,7 @@
       <div class="row">
         <div class="col">
           <div>
-            <span class="toBold" style="text-align:center">{{this.questionText}}</span>
+            <span class="toBold" style="text-align:center">{{this.questionText}}</span><br><br>
             <input type="text" id="{{this.answerFieldId}}" name="answer"><br><br>
             <button class="btn bg-dark text-white float-right" data-action="submit">Submit</button>
           </div>
@@ -169,7 +169,7 @@
       <div class="row">
         <div class="col">
           <div>
-            <span class= "toBold" id=endMessage>--END MESSAGE--</span><br>
+            <span class= "toBold" id=endMessage></span><br>
             <div class="quizButtonsContainer">
               <!--<span></span>-->
               <button class="btn bg-dark text-white float-right quizBtn" data-action="main_page">Return to main page</button>
@@ -181,13 +181,26 @@
     </div>
   </script>
 
-  <script id="feedback_view" type="text/x-handlebars-template">
+  <script id="feedback_view_positive" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
           <div class="col">
             <div>
-              <span id="feedback_string">Yay! | Booooo </span>
-              <button class="btn btn-info float-right" data-action="ok"> OK</button>
+              <span id="feedback_string">Yay!</span>
+              <!--<button class="btn btn-info float-right" data-action="ok"> OK</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+  </script>
+
+  <script id="feedback_view_negative" type="text/x-handlebars-template">
+    <div class="container">
+      <div class="row">
+          <div class="col">
+            <div>
+              <span id="feedback_string">Booooo!</span>
+              <!--<button class="btn btn-info float-right" data-action="ok"> OK</button>-->
             </div>
           </div>
         </div>
