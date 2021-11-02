@@ -1,0 +1,86 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+  color: black;
+}
+
+body{
+  background: url(https://wallpaperaccess.com/full/1457926.jpg);
+  background-size: cover;
+  margin-top: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+input{
+  border-radius: 8pt;
+  background-color: white;
+  border: 3px black solid;
+  padding: 10px;
+}
+input[type="radio"], input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.quizBtn{
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.navbar-expand-lg{
+  border-radius: 8pt;
+  background-color: #f2f2f2;
+  min-width: 70%;
+}
+
+.tfBtn{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.toBold{
+  font-weight: bold;
+}
+
+#header{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
+  margin-right: 50px;
+
+}
+#tfBtns{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+#widget_view{
+  text-align: center;
+  padding: 20px;
+  border-radius: 8pt;
+  background-color: #f2f2f2;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+}
+
+#timeBox{
+  margin-top: 50px;
+  border-radius: 8pt;
+  background-color: #f2f2f2;
+  max-width: 300px;
+  text-align: center;
+  padding: 15px;
+  min-width: 20%;
+}
+
+.quizButtonsContainer{
+  display: flex;
+  justify-content: center;
+}
+
+#userName{
+  margin-top: 15px;
+}
