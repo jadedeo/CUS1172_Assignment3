@@ -8,8 +8,8 @@ body{
   background: url(https://wallpaperaccess.com/full/1457926.jpg);
   background-size: cover;
   margin-top: 50px;
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 input{
@@ -44,11 +44,21 @@ input[type="radio"], input[type="checkbox"] {
   font-weight: bold;
 }
 
+.leftAlignChoices{
+  text-align: left;
+  margin-top:15px;
+  margin-left:30%;
+  
+}
+
 #header{
   display: flex;
   justify-content: space-between;
   margin-left: 50px;
   margin-right: 50px;
+  flex-wrap:flex;
+  max-height:60%;
+  min-width:60%;
 
 }
 #tfBtns{
@@ -66,6 +76,7 @@ input[type="radio"], input[type="checkbox"] {
   display: flex;
   align-items: center;
   border: 5px black solid;
+  flex-wrap:wrap;
 }
 
 #timeBox{
@@ -87,3 +98,18 @@ input[type="radio"], input[type="checkbox"] {
 #userName{
   margin-top: 15px;
 }
+
+#headerText{
+  color:black;
+  max-width:100%;
+  font-size:20pt;
+}
+
+#titleBox{
+  margin-top: 50px;
+  border-radius: 8pt;
+  background-color: #f2f2f2;
+  min-width: 70%;
+  border: 5px black solid;
+}
+

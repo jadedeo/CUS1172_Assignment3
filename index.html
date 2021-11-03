@@ -17,9 +17,9 @@
   </head>
   <body>
     <div id="header">
-      <nav class="navbar navbar-expand-lg navbar-light">
+      <nav class= "toBold" id="titleBox">
         <div class="container">
-          <a class="navbar-brand" href="#">COMP SCI QUIZ APPLICATION</a>
+          <a id="headerText"  href="#">COMP SCI QUIZ APPLICATION</a>
         </div>
       </nav>
       <div id="timeBox">
@@ -43,8 +43,8 @@
               <span class="toBold" id="introPrompt">Enter your name, then choose a quiz to begin.</span><br>
               <input type="text" id="userName" name="fname" placeholder="Your Name Here"><br>
               <div class="quizButtonsContainer">
-                <button class="btn bg-dark text-white quizBtn " data-action="{{this.action}}">{{this.action}}</button>
-                <button class="btn bg-dark text-white quizBtn " data-action="{{this.action2}}">{{this.action2}}</button>
+                <button class="btn bg-dark text-white quizBtn " data-action="{{this.action}}">Quiz 1</button>
+                <button class="btn bg-dark text-white quizBtn " data-action="{{this.action2}}">Quiz 2</button>
               </div>
             </div>
           </div>
@@ -63,11 +63,12 @@
           <div class="col">
             <div>
               <span class="toBold" style="text-align:center">{{this.questionText}}</span><br>
-              <input type="radio" id="{{this.options.[0]}}" data-action="answer" data-answer="{{this.options.[0]}}" value="{{this.options.[0]}}" name="choice">{{this.options.[0]}}<br>
-              <input type="radio" id="{{this.options.[1]}}" data-action="answer" data-answer="{{this.options.[1]}}" value="{{this.options.[1]}}" name="choice">{{this.options.[1]}}<br>
-              <input type="radio" id="{{this.options.[2]}}" data-action="answer" data-answer="{{this.options.[2]}}" value="{{this.options.[2]}}" name="choice">{{this.options.[2]}}<br>
-              <input type="radio" id="{{this.options.[3]}}" data-action="answer" data-answer="{{this.options.[3]}}" value="{{this.options.[3]}}" name="choice">{{this.options.[3]}}<br>
-
+              <div class="leftAlignChoices">
+                <input type="radio" id="{{this.options.[0]}}" data-action="answer" data-answer="{{this.options.[0]}}" value="{{this.options.[0]}}" name="choice">{{this.options.[0]}}<br>
+                <input type="radio" id="{{this.options.[1]}}" data-action="answer" data-answer="{{this.options.[1]}}" value="{{this.options.[1]}}" name="choice">{{this.options.[1]}}<br>
+                <input type="radio" id="{{this.options.[2]}}" data-action="answer" data-answer="{{this.options.[2]}}" value="{{this.options.[2]}}" name="choice">{{this.options.[2]}}<br>
+                <input type="radio" id="{{this.options.[3]}}" data-action="answer" data-answer="{{this.options.[3]}}" value="{{this.options.[3]}}" name="choice">{{this.options.[3]}}<br>
+              </div>
               <button class="btn bg-dark text-white float-right" data-action="submit">Submit</button>
           </div>
         </div>
@@ -207,8 +208,8 @@
       <div class="row">
           <div class="col">
             <div>
-              <span id="explanation_string">{{this.explanation}}</span>
-              <button class="btn btn-info float-right" data-action="ok">OK</button>-->
+              <span id="explanation_string">{{this.explanation}}</span><br><br><br>
+              <button id="okBtn" onclick="closeExplanation()" class="btn bg-dark text-white float-right">Ok</button>
             </div>
           </div>
         </div>
