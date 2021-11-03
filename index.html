@@ -31,7 +31,6 @@
 
     </div>
 
-
   </body>
 
   <!--VIEWS-->
@@ -162,8 +161,6 @@
     </div>
   </script>
 
-
-
   <script id="end_view" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
@@ -187,7 +184,6 @@
           <div class="col">
             <div>
               <span id="feedback_string">Correct :D</span>
-              <!--<button class="btn btn-info float-right" data-action="ok"> OK</button>-->
             </div>
           </div>
         </div>
@@ -200,7 +196,19 @@
           <div class="col">
             <div>
               <span id="feedback_string">Incorrect :|</span>
-              <!--<button class="btn btn-info float-right" data-action="ok"> OK</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+  </script>
+
+  <script id="explanation_view" type="text/x-handlebars-template">
+    <div class="container">
+      <div class="row">
+          <div class="col">
+            <div>
+              <span id="explanation_string">{{this.explanation}}</span>
+              <button class="btn btn-info float-right" data-action="ok">OK</button>-->
             </div>
           </div>
         </div>

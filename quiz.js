@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
-TIMER STUFF
-**/
+ * TIMER STUFF
+ * **/
 let minutesLabel  = "";
 let secondsLabel = "";
 let timer;
@@ -79,54 +79,20 @@ function pad(val) {
   }
 }
 
-/*
-function positiveFeedbackView() {
-  console.log("inside positive feed back - #feedback_view_positive");
-  //render_widget(appState.current_model, "#feedback_view_positive")
-  //update_view(appState);
-  if(appState.current_question == (appState.question_count - 1)) {
-      setTimeout(() => {
-          appState.current_stage = "#end_view"
-      }, 1000);
-  } else {
-      setTimeout(() => {
-        const appState = {
-          current_view : "#feedback_view_positive",
-          // current_question : -1,
-          // current_quiz: "",
-          // current_model : {},
-          // total_correct: 0,
-          // total_incorrect: 0
-      }
-          update_view(appState)
-          setQuestionView(appState);
-      }, 1000);
-  }
-}
-*/
-
-/*
-function negativeFeedbackView() {
-  render_widget(appState.current_model, "#feedback_view_negative")
-  if(appState.current_question == (appState.question_count - 1)) {
-      setTimeout(() => {
-          appState.current_stage = "#end_view"
-      }, 1000);
-  } else {
-      setTimeout(() => {
-          setQuestionView(appState);
-      }, 1000);
-  }
-}
-*/
-
+/**
+ * FEEDBACK VIEW STUFF
+ * **/
 function setFeedbackView(isCorrect) {
-  console.log("type of feedback:", isCorrect);
+  //console.log("type of feedback:", isCorrect);
   if (isCorrect==true){
     appState.current_view = "#feedback_view_positive";
   } else  {
     appState.current_view = "#feedback_view_negative";
   }    
+}
+
+function setExplanationView(){
+  appState.current_view = "#explanation_view";
 }
 
 
@@ -180,12 +146,10 @@ function handle_widget_event(e) {
       if(isCorrect){
         console.log("CORRECT");
         appState.total_correct ++;
-        
       }
       else{
         console.log("INCORRECT");
         appState.total_incorrect ++;
-
       }
 
       setFeedbackView(isCorrect);
@@ -194,6 +158,10 @@ function handle_widget_event(e) {
       new Promise(function(resolve, reject) {
         setTimeout(resolve, 1000);
       }).then(function() {
+        if(!isCorrect){
+          setExplanationView();
+          update_explanationView(appState);
+        }
         updateQuestion(appState);
         setQuestionView(appState);
         update_view(appState);
@@ -452,12 +420,18 @@ function setQuestionView(appState) {
 function update_view(appState) {
   const html_element = render_widget(appState.current_model, appState.current_view)
   document.querySelector("#widget_view").innerHTML = html_element;
-
 }
 
 function update_feedbackView(appState) {
   const html_element = render_widget(appState.current_model, appState.current_view)
-  //const html_element ='<h1>WTF</h1>'
+  document.querySelector("#widget_view").innerHTML = html_element;
+}
+
+function update_explanationView(appState) {
+  console.log("update_explanationView called.");
+  console.log(appState.current_view);
+  const html_element = render_widget(appState.current_model, appState.current_view)
+  console.log(html_element);
   document.querySelector("#widget_view").innerHTML = html_element;
 }
 
