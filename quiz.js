@@ -1,5 +1,5 @@
 let totalSeconds = 0;
-let name = "";
+let userName = "";
 
 const appState = {
     current_view : "#intro_view",
@@ -11,8 +11,15 @@ const appState = {
 }
 
 async function fetch_question(questionId, quizChoice){
+  let api_endpoint_url = "";
 
-  let api_endpoint_url = 'https://my-json-server.typicode.com/jadedeo/QuizServer/'
+  if(quizChoice == "quiz1"){
+    api_endpoint_url = 'https://my-json-server.typicode.com/jadedeo/QuizServer/'
+  }
+  else if(quizChoice == "quiz2"){
+    api_endpoint_url = 'https://my-json-server.typicode.com/jadedeo/QuizServer2/'
+  }
+
   let api_endpoint = `${api_endpoint_url}/${quizChoice}/${questionId}`
   const response = await fetch(api_endpoint);
   const data = await response.json();
@@ -72,32 +79,54 @@ function pad(val) {
   }
 }
 
+/*
 function positiveFeedbackView() {
-  console.log("HERE");
-    render_widget(appState.current_model, "#feedback_view_positive")
-    //update_view(appState);
-    if(appState.current_question == (appState.question_count - 1)) {
-        setTimeout(() => {
-            appState.current_stage = "#end_view"
-        }, 1000);
-    } else {
-        setTimeout(() => {
-            setQuestionView(appState);
-        }, 1000);
-    }
+  console.log("inside positive feed back - #feedback_view_positive");
+  //render_widget(appState.current_model, "#feedback_view_positive")
+  //update_view(appState);
+  if(appState.current_question == (appState.question_count - 1)) {
+      setTimeout(() => {
+          appState.current_stage = "#end_view"
+      }, 1000);
+  } else {
+      setTimeout(() => {
+        const appState = {
+          current_view : "#feedback_view_positive",
+          // current_question : -1,
+          // current_quiz: "",
+          // current_model : {},
+          // total_correct: 0,
+          // total_incorrect: 0
+      }
+          update_view(appState)
+          setQuestionView(appState);
+      }, 1000);
+  }
 }
+*/
 
+/*
 function negativeFeedbackView() {
-    render_widget(appState.current_model, "#feedback_view_negative")
-    if(appState.current_question == (appState.question_count - 1)) {
-        setTimeout(() => {
-            appState.current_stage = "#end_view"
-        }, 1000);
-    } else {
-        setTimeout(() => {
-            setQuestionView(appState);
-        }, 1000);
-    }
+  render_widget(appState.current_model, "#feedback_view_negative")
+  if(appState.current_question == (appState.question_count - 1)) {
+      setTimeout(() => {
+          appState.current_stage = "#end_view"
+      }, 1000);
+  } else {
+      setTimeout(() => {
+          setQuestionView(appState);
+      }, 1000);
+  }
+}
+*/
+
+function setFeedbackView(isCorrect) {
+  console.log("type of feedback:", isCorrect);
+  if (isCorrect==true){
+    appState.current_view = "#feedback_view_positive";
+  } else  {
+    appState.current_view = "#feedback_view_negative";
+  }    
 }
 
 
@@ -106,9 +135,9 @@ handle all events in question widget
 **/
 function handle_widget_event(e) {
   if (appState.current_view == "#intro_view") {
-    name = document.getElementById("userName").value;
-    if(name == "") {
-      name = "Anonymous";
+    userName = document.getElementById("userName").value;
+    if(userName == "") {
+      userName = "Anonymous";
     }
 
     if (e.target.dataset.action == "quiz1") {
@@ -138,36 +167,39 @@ function handle_widget_event(e) {
 
     if (e.target.dataset.action == "submit") {
 
-        let choices = document.getElementsByName("choice");
-        let user_response;
-        for(let i = 0; i < choices.length; i++){
-          if(choices[i].checked){
-            user_response = choices[i].value;
-          }
+      let choices = document.getElementsByName("choice");
+      let user_response;
+      for(let i = 0; i < choices.length; i++){
+        if(choices[i].checked){
+          user_response = choices[i].value;
         }
-        //console.log("USER RESPONSE: " + user_response);
-        isCorrect = check_user_response(user_response, appState.current_model);
+      }
+    
+      isCorrect = check_user_response(user_response, appState.current_model);
 
-        if(isCorrect){
-          console.log("CORRECT");
-          appState.total_correct ++;
-          positiveFeedbackView()
-          //alert("YAY!");
-        }
-        else{
-          console.log("INCORRECT");
-          appState.total_incorrect ++;
-          negativeFeedbackView();
-          //alert("BOOOOOO!");
-        }
-        //console.log(appState);
+      if(isCorrect){
+        console.log("CORRECT");
+        appState.total_correct ++;
+        
+      }
+      else{
+        console.log("INCORRECT");
+        appState.total_incorrect ++;
 
+      }
 
+      setFeedbackView(isCorrect);
+      update_feedbackView(appState);
+
+      new Promise(function(resolve, reject) {
+        setTimeout(resolve, 1000);
+      }).then(function() {
         updateQuestion(appState);
         setQuestionView(appState);
         update_view(appState);
+      });
     }
-   }
+  }
 
   //Handle the checkbox answer event
   if (appState.current_view == "#question_view_checkbox") {
@@ -189,17 +221,24 @@ function handle_widget_event(e) {
        if(isCorrect){
          console.log("CORRECT");
          appState.total_correct ++;
-         alert("YAY!");
+         //alert("YAY!");
        }
        else{
          console.log("INCORRECT");
          appState.total_incorrect ++;
-         alert("BOOOOOO!");
+         //alert("BOOOOOO!");
        }
 
+       setFeedbackView(isCorrect);
+       update_feedbackView(appState);
+
+       new Promise(function(resolve, reject) {
+         setTimeout(resolve, 1000);
+       }).then(function() {
        updateQuestion(appState);
        setQuestionView(appState);
        update_view(appState);
+       });
 
      }
   }
@@ -214,81 +253,102 @@ function handle_widget_event(e) {
        if(isCorrect){
          console.log("CORRECT");
          appState.total_correct ++;
-         alert("YAY!");
+         //alert("YAY!");
        }
        else{
          console.log("INCORRECT");
          appState.total_incorrect ++;
-         alert("BOOOOOO!");
+         //alert("BOOOOOO!");
 
        }
 
+       setFeedbackView(isCorrect);
+       update_feedbackView(appState);
+
+       new Promise(function(resolve, reject) {
+         setTimeout(resolve, 1000);
+       }).then(function() {
        updateQuestion(appState);
        setQuestionView(appState);
        update_view(appState);
+       });
 
      }
-   }
+  }
 
   // Handle answer event for text questions.
   if (appState.current_view == "#question_view_text_input") {
       console.log("INPUT TYPE");
-       if (e.target.dataset.action == "submit") {
+      if (e.target.dataset.action == "submit") {
 
-           user_response = document.querySelector(`#${appState.current_model.answerFieldId}`).value;
-           //console.log("USER RESPONSE: " + user_response);
-           isCorrect = check_user_response(user_response, appState.current_model);
+        user_response = document.querySelector(`#${appState.current_model.answerFieldId}`).value;
+        //console.log("USER RESPONSE: " + user_response);
+        isCorrect = check_user_response(user_response, appState.current_model);
 
-           if(isCorrect){
-             console.log("CORRECT");
-             appState.total_correct ++;
-             alert("YAY!");
-           }
-           else{
-             console.log("INCORRECT");
-             appState.total_incorrect ++;
-             alert("BOOOOOO!");
+        if(isCorrect){
+          console.log("CORRECT");
+          appState.total_correct ++;
+          //alert("YAY!");
+        }
+        else{
+          console.log("INCORRECT");
+          appState.total_incorrect ++;
+          //alert("BOOOOOO!");
 
-           }
+        }
 
-           updateQuestion(appState);
-           setQuestionView(appState);
-           update_view(appState);
-       }
+        setFeedbackView(isCorrect);
+        update_feedbackView(appState);
+
+        new Promise(function(resolve, reject) {
+          setTimeout(resolve, 1000);
+        }).then(function() {
+        updateQuestion(appState);
+        setQuestionView(appState);
+        update_view(appState);
+        });
+      }
   }
 
   // Handle answer event for multi input text questions.
   if (appState.current_view == "#question_view_multi_text_input") {
-     console.log("MULTI INPUT TYPE");
-      if (e.target.dataset.action == "submit") {
+    console.log("MULTI INPUT TYPE");
+    if (e.target.dataset.action == "submit") {
 
-          user_response1 = document.querySelector(`#${appState.current_model.answerFieldId1}`).value;
-          user_response2 = document.querySelector(`#${appState.current_model.answerFieldId2}`).value;
-          //console.log("USER RESPONSE: " + user_response);
+      user_response1 = document.querySelector(`#${appState.current_model.answerFieldId1}`).value;
+      user_response2 = document.querySelector(`#${appState.current_model.answerFieldId2}`).value;
+      //console.log("USER RESPONSE: " + user_response);
 
-          let textAnswers = [];
-          textAnswers.push(user_response1);
-          textAnswers.push(user_response2);
+      let textAnswers = [];
+      textAnswers.push(user_response1);
+      textAnswers.push(user_response2);
 
-          console.log(textAnswers);
-          isCorrect = check_user_response(textAnswers, appState.current_model);
+      //console.log(textAnswers);
+      isCorrect = check_user_response(textAnswers, appState.current_model);
 
-          if(isCorrect){
-            console.log("CORRECT");
-            appState.total_correct ++;
-            alert("YAY!");
-          }
-          else{
-            console.log("INCORRECT");
-            appState.total_incorrect ++;
-            alert("BOOOOOO!");
-
-          }
-
-          updateQuestion(appState);
-          setQuestionView(appState);
-          update_view(appState);
+      if(isCorrect){
+        console.log("CORRECT");
+        appState.total_correct ++;
+        //alert("YAY!");
       }
+      else{
+        console.log("INCORRECT");
+        appState.total_incorrect ++;
+        //alert("BOOOOOO!");
+
+      }
+
+      setFeedbackView(isCorrect);
+      update_feedbackView(appState);
+      
+      new Promise(function(resolve, reject) {
+        setTimeout(resolve, 1000);
+      }).then(function() {
+      updateQuestion(appState);
+      setQuestionView(appState);
+      update_view(appState);
+      });
+    }
  }
 
   // Handle end.
@@ -335,9 +395,8 @@ function handle_widget_event(e) {
           appState.total_incorrect = 0
           fetch_question(appState.current_question + 1,appState.current_quiz);
         }
-    }
- }
-
+  }
+}
 
 function check_user_response(user_answer, model) {
   if(appState.current_model.questionType == "checkbox" || appState.current_model.questionType == "multi_text_input") {
@@ -388,14 +447,6 @@ function setQuestionView(appState) {
   else if (appState.current_model.questionType == "multi_text_input") {
     appState.current_view = "#question_view_multi_text_input";
   }
-  /*
-  else if (appState.current_model.questionType == "feedback_view_positive") {
-    appState.current_view = "#feedback_view_positive";
-  }
-  else if (appState.current_model.questionType == "feedback_view_negative") {
-    appState.current_view = "#feedback_view_negative";
-  }
-  */
 }
 
 function update_view(appState) {
@@ -404,25 +455,20 @@ function update_view(appState) {
 
 }
 
+function update_feedbackView(appState) {
+  const html_element = render_widget(appState.current_model, appState.current_view)
+  //const html_element ='<h1>WTF</h1>'
+  document.querySelector("#widget_view").innerHTML = html_element;
+}
+
 const render_widget = (model,view) => {
-  //console.log("B:" + view);
-  if(view == "#feedback_view_positive"){
-
-    console.log("A:" + model);
-    console.log("B:" + view);
-  }
-
   // Get the template HTML
   template_source = document.querySelector(view).innerHTML
-
   // Handlebars compiles the above source into a template
   var template = Handlebars.compile(template_source);
   // apply the model to the template.
   var html_widget_element = template({...model,...appState})
-  if(view == "#feedback_view_positive"){
-    console.log("HTML:");
-    console.log(html_widget_element);
-  }
+
   return html_widget_element
 }
 
