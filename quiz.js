@@ -40,18 +40,18 @@ async function fetch_question(questionId, quizChoice) {
   return (data);
 }
 
-// START APPLICATION
-
+/**
+ * START APPLICATION
+ **/
 document.addEventListener('DOMContentLoaded', () => {
-  // Set the state
   appState.current_view = "#intro_view";
   appState.current_model = {
     action: "quiz1",
     action2: "quiz2"
   }
+
   update_view(appState);
 
-  //EventDelegation - handle all events of the widget
   document.querySelector("#widget_view").onclick = (e) => {
     handle_widget_event(e)
   }
@@ -83,7 +83,6 @@ function pad(val) {
  * FEEDBACK VIEW STUFF
  * **/
 function setFeedbackView(isCorrect) {
-  //console.log("type of feedback:", isCorrect);
   if (isCorrect == true) {
     appState.current_view = "#feedback_view_positive";
   } else {
@@ -95,9 +94,7 @@ function setExplanationView() {
   appState.current_view = "#explanation_view";
 }
 
-
 function displayExplanation(isCorrectVal) {
-
   if (!isCorrectVal) {
     new Promise(function (resolve, reject) {
       setTimeout(resolve, 1000);
@@ -106,7 +103,6 @@ function displayExplanation(isCorrectVal) {
         setExplanationView();
         update_explanationView(appState);
       }
-
     });
   }
 
@@ -121,9 +117,14 @@ function displayExplanation(isCorrectVal) {
   }
 }
 
+function closeExplanation(e) {
+  updateQuestion(appState);
+  setQuestionView(appState);
+  update_view(appState);
+}
 
 /**
-handle all events in question widget
+Handle all events in question widget
 **/
 function handle_widget_event(e) {
   if (appState.current_view == "#intro_view") {
@@ -137,7 +138,6 @@ function handle_widget_event(e) {
       minutesLabel = document.getElementById("minutes");
       secondsLabel = document.getElementById("seconds");
 
-      console.log("QUIZ1");
       appState.current_quiz = "quiz1";
       appState.current_question = 0;
       fetch_question(appState.current_question + 1, appState.current_quiz);
@@ -147,7 +147,6 @@ function handle_widget_event(e) {
       minutesLabel = document.getElementById("minutes");
       secondsLabel = document.getElementById("seconds");
 
-      console.log("QUIZ2");
       appState.current_quiz = "quiz2";
       appState.current_question = 0;
       fetch_question(appState.current_question + 1, appState.current_quiz);
@@ -155,12 +154,10 @@ function handle_widget_event(e) {
   }
   //Handle MC answer event
   if (appState.current_view == "#question_view_multiple_choice") {
-    console.log("MC TYPE");
-
     if (e.target.dataset.action == "submit") {
-
       let choices = document.getElementsByName("choice");
       let user_response;
+
       for (let i = 0; i < choices.length; i++) {
         if (choices[i].checked) {
           user_response = choices[i].value;
@@ -168,158 +165,113 @@ function handle_widget_event(e) {
       }
 
       isCorrect = check_user_response(user_response, appState.current_model);
-
       if (isCorrect) {
-        console.log("CORRECT");
         appState.total_correct++;
       }
       else {
-        console.log("INCORRECT");
         appState.total_incorrect++;
       }
 
       setFeedbackView(isCorrect);
       update_feedbackView(appState);
-
       displayExplanation(isCorrect);
     }
   }
 
-  //Handle the checkbox answer event
+  //Handle the checkbox questions
   if (appState.current_view == "#question_view_checkbox") {
-    console.log("CHECKBOX TYPE");
     if (e.target.dataset.action == "submit") {
       var checkboxes = document.getElementsByName("box");
       var checkboxesChecked = [];
-      // loop over them all
+
       for (var i = 0; i < checkboxes.length; i++) {
-        // And stick the checked ones onto an array...
         if (checkboxes[i].checked) {
           checkboxesChecked.push(checkboxes[i].value);
-          //console.log("Checked: " + checkboxes[i].value);
         }
       }
-      //console.log(checkboxesChecked);
-      //console.log(appState.current_model.correctAnswer);
+
       isCorrect = check_user_response(checkboxesChecked, appState.current_model);
       if (isCorrect) {
-        console.log("CORRECT");
         appState.total_correct++;
-        //alert("YAY!");
       }
       else {
-        console.log("INCORRECT");
         appState.total_incorrect++;
-        //alert("BOOOOOO!");
       }
 
       setFeedbackView(isCorrect);
       update_feedbackView(appState);
-
       displayExplanation(isCorrect);
-
     }
   }
 
-  // Handle the T/F answer event.
+  // Handle the T/F questions
   if (appState.current_view == "#question_view_true_false") {
-    console.log("T/F TYPE");
     if (e.target.dataset.action == "answer") {
-      // Controller - implement logic.
       isCorrect = check_user_response(e.target.dataset.answer, appState.current_model);
-
       if (isCorrect) {
-        console.log("CORRECT");
         appState.total_correct++;
-        //alert("YAY!");
       }
       else {
-        console.log("INCORRECT");
         appState.total_incorrect++;
-        //alert("BOOOOOO!");
-
       }
 
       setFeedbackView(isCorrect);
       update_feedbackView(appState);
-
       displayExplanation(isCorrect);
-
     }
   }
 
-  // Handle answer event for text questions.
+  // Handle text input questions
   if (appState.current_view == "#question_view_text_input") {
-    console.log("INPUT TYPE");
     if (e.target.dataset.action == "submit") {
-
       user_response = document.querySelector(`#${appState.current_model.answerFieldId}`).value;
-      //console.log("USER RESPONSE: " + user_response);
+      
       isCorrect = check_user_response(user_response, appState.current_model);
-
       if (isCorrect) {
-        console.log("CORRECT");
         appState.total_correct++;
-        //alert("YAY!");
       }
       else {
-        console.log("INCORRECT");
         appState.total_incorrect++;
-        //alert("BOOOOOO!");
-
       }
 
       setFeedbackView(isCorrect);
       update_feedbackView(appState);
-
       displayExplanation(isCorrect);
     }
   }
 
-  // Handle answer event for multi input text questions.
+  // Handle multiple text input questions
   if (appState.current_view == "#question_view_multi_text_input") {
-    console.log("MULTI INPUT TYPE");
     if (e.target.dataset.action == "submit") {
-
       user_response1 = document.querySelector(`#${appState.current_model.answerFieldId1}`).value;
       user_response2 = document.querySelector(`#${appState.current_model.answerFieldId2}`).value;
-      //console.log("USER RESPONSE: " + user_response);
 
       let textAnswers = [];
       textAnswers.push(user_response1);
       textAnswers.push(user_response2);
 
-      //console.log(textAnswers);
       isCorrect = check_user_response(textAnswers, appState.current_model);
-
       if (isCorrect) {
-        console.log("CORRECT");
         appState.total_correct++;
-        //alert("YAY!");
       }
       else {
-        console.log("INCORRECT");
         appState.total_incorrect++;
-        //alert("BOOOOOO!");
-
       }
 
       setFeedbackView(isCorrect);
       update_feedbackView(appState);
-
       displayExplanation(isCorrect);
     }
   }
 
-  // Handle end.
+  // Handle end
   if (appState.current_view == "#end_view") {
     clearInterval(timer);
-    //edit end message
+
     let finalScore = +(((appState.total_correct / (appState.total_incorrect + appState.total_correct)) * 100).toFixed(2));
     console.log("SCORE: " + finalScore);
     if (finalScore >= 80) {
       document.getElementById("endMessage").innerHTML = "Final Score: " + finalScore + "%<br>Congrats, " + name + " - you passed!";
-
     }
     else {
       document.getElementById("endMessage").innerHTML = "Final Score: " + finalScore + "%<br>Sorry, " + name + " - you failed.";
@@ -346,10 +298,8 @@ function handle_widget_event(e) {
       totalSeconds = 0;
       secondsLabel.innerHTML = pad(0);
       minutesLabel.innerHTML = pad(0);
-
       timer = setInterval(setTime, 1000);
 
-      console.log(appState.current_quiz);
       appState.current_question = 0,
         appState.total_correct = 0,
         appState.total_incorrect = 0
@@ -360,13 +310,11 @@ function handle_widget_event(e) {
 
 function check_user_response(user_answer, model) {
   if (appState.current_model.questionType == "checkbox" || appState.current_model.questionType == "multi_text_input") {
-    //console.log("CHECKBOX Q");
     if (JSON.stringify(user_answer) === JSON.stringify(model.correctAnswer)) {
       return true;
     }
   }
   else {
-    //console.log("NON CHECKBOX Q");
     if (user_answer == model.correctAnswer) {
       return true;
     }
@@ -386,7 +334,6 @@ function updateQuestion(appState) {
 }
 
 function setQuestionView(appState) {
-
   if (appState.current_question == -2) {
     appState.current_view = "#end_view";
     return;
@@ -420,41 +367,14 @@ function update_feedbackView(appState) {
 }
 
 function update_explanationView(appState) {
-  console.log("update_explanationView called.");
-  console.log(appState.current_view);
   const html_element = render_widget(appState.current_model, appState.current_view)
-  console.log(html_element);
   document.querySelector("#widget_view").innerHTML = html_element;
 }
 
 const render_widget = (model, view) => {
-  // Get the template HTML
-  template_source = document.querySelector(view).innerHTML
-  // Handlebars compiles the above source into a template
+  template_source = document.querySelector(view).innerHTML;
   var template = Handlebars.compile(template_source);
-  // apply the model to the template.
   var html_widget_element = template({ ...model, ...appState })
 
   return html_widget_element
-}
-
-/*
-const render_widget = (model,view) => {
-
-  // Get the template HTML
-  template_source = document.querySelector(view).innerHTML
-  console.log(template_source);
-  // Handlebars compiles the above source into a template
-  var template = Handlebars.compile(template_source);
-  // apply the model to the template.
-  var html_widget_element = template({...model,...appState})
-
-  return html_widget_element
-}
-*/
-
-function closeExplanation(e) {
-  updateQuestion(appState);
-  setQuestionView(appState);
-  update_view(appState);
 }
