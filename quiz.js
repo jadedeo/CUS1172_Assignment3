@@ -1,3 +1,6 @@
+/***
+ * GLOBAL & STATE STUFF
+ **/
 let totalSeconds = 0;
 let userName = "";
 
@@ -10,6 +13,9 @@ const appState = {
   total_incorrect: 0
 }
 
+/**
+ * GET QUESTIONS ASYNCHRONOUSLY
+ **/
 async function fetch_question(questionId, quizChoice) {
   let api_endpoint_url = "";
 
@@ -80,52 +86,8 @@ function pad(val) {
 }
 
 /**
- * FEEDBACK VIEW STUFF
+ * HANDLE ALL EVENTS IN QUESTION WIDGET
  * **/
-function setFeedbackView(isCorrect) {
-  if (isCorrect == true) {
-    appState.current_view = "#feedback_view_positive";
-  } else {
-    appState.current_view = "#feedback_view_negative";
-  }
-}
-
-function setExplanationView() {
-  appState.current_view = "#explanation_view";
-}
-
-function displayExplanation(isCorrectVal) {
-  if (!isCorrectVal) {
-    new Promise(function (resolve, reject) {
-      setTimeout(resolve, 1000);
-    }).then(function () {
-      if (!isCorrectVal) {
-        setExplanationView();
-        update_view(appState);
-      }
-    });
-  }
-
-  if (isCorrectVal) {
-    new Promise(function (resolve, reject) {
-      setTimeout(resolve, 1000);
-    }).then(function () {
-      updateQuestion(appState);
-      setQuestionView(appState);
-      update_view(appState);
-    });
-  }
-}
-
-function closeExplanation(e) {
-  updateQuestion(appState);
-  setQuestionView(appState);
-  update_view(appState);
-}
-
-/**
-Handle all events in question widget
-**/
 function handle_widget_event(e) {
   if (appState.current_view == "#intro_view") {
     userName = document.getElementById("userName").value;
@@ -308,6 +270,9 @@ function handle_widget_event(e) {
   }
 }
 
+/**
+ * QUESTION VIEW STUFF
+ * **/
 function check_user_response(user_answer, model) {
   if (appState.current_model.questionType == "checkbox" || appState.current_model.questionType == "multi_text_input") {
     if (JSON.stringify(user_answer) === JSON.stringify(model.correctAnswer)) {
@@ -356,6 +321,53 @@ function setQuestionView(appState) {
   }
 }
 
+/**
+ * FEEDBACK & EXPLANATION VIEW STUFF
+ * **/
+ function setFeedbackView(isCorrect) {
+  if (isCorrect == true) {
+    appState.current_view = "#feedback_view_positive";
+  } else {
+    appState.current_view = "#feedback_view_negative";
+  }
+}
+
+function setExplanationView() {
+  appState.current_view = "#explanation_view";
+}
+
+function displayExplanation(isCorrectVal) {
+  if (!isCorrectVal) {
+    new Promise(function (resolve, reject) {
+      setTimeout(resolve, 1000);
+    }).then(function () {
+      if (!isCorrectVal) {
+        setExplanationView();
+        update_view(appState);
+      }
+    });
+  }
+
+  if (isCorrectVal) {
+    new Promise(function (resolve, reject) {
+      setTimeout(resolve, 1000);
+    }).then(function () {
+      updateQuestion(appState);
+      setQuestionView(appState);
+      update_view(appState);
+    });
+  }
+}
+
+function closeExplanation(e) {
+  updateQuestion(appState);
+  setQuestionView(appState);
+  update_view(appState);
+}
+
+/**
+ * GENERAL VIEW STUFF
+ * **/
 function update_view(appState) {
   const html_element = render_widget(appState.current_model, appState.current_view)
   document.querySelector("#widget_view").innerHTML = html_element;

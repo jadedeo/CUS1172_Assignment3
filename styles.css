@@ -21,6 +21,9 @@ input{
 input[type="radio"], input[type="checkbox"] {
   margin-right: 10px;
 }
+input[type="text"]{
+  height:40px;
+}
 
 .quizBtn{
   margin-top: 15px;
@@ -73,7 +76,7 @@ input[type="radio"], input[type="checkbox"] {
 
 #widget_view{
   text-align: center;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8pt;
   background-color: #f2f2f2;
   min-height: 400px;
@@ -110,5 +113,9 @@ input[type="radio"], input[type="checkbox"] {
   background-color: #f2f2f2;
   min-width: 70%;
   border: 5px black solid;
+}
+
+#okBtn{
+  margin-top:30px;
 }
 
