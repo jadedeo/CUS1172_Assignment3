@@ -101,7 +101,7 @@ function displayExplanation(isCorrectVal) {
     }).then(function () {
       if (!isCorrectVal) {
         setExplanationView();
-        update_explanationView(appState);
+        update_view(appState);
       }
     });
   }
@@ -173,7 +173,7 @@ function handle_widget_event(e) {
       }
 
       setFeedbackView(isCorrect);
-      update_feedbackView(appState);
+      update_view(appState);
       displayExplanation(isCorrect);
     }
   }
@@ -199,7 +199,7 @@ function handle_widget_event(e) {
       }
 
       setFeedbackView(isCorrect);
-      update_feedbackView(appState);
+      update_view(appState);
       displayExplanation(isCorrect);
     }
   }
@@ -216,7 +216,7 @@ function handle_widget_event(e) {
       }
 
       setFeedbackView(isCorrect);
-      update_feedbackView(appState);
+      update_view(appState);
       displayExplanation(isCorrect);
     }
   }
@@ -235,7 +235,7 @@ function handle_widget_event(e) {
       }
 
       setFeedbackView(isCorrect);
-      update_feedbackView(appState);
+      update_view(appState);
       displayExplanation(isCorrect);
     }
   }
@@ -259,7 +259,7 @@ function handle_widget_event(e) {
       }
 
       setFeedbackView(isCorrect);
-      update_feedbackView(appState);
+      update_view(appState);
       displayExplanation(isCorrect);
     }
   }
@@ -357,16 +357,6 @@ function setQuestionView(appState) {
 }
 
 function update_view(appState) {
-  const html_element = render_widget(appState.current_model, appState.current_view)
-  document.querySelector("#widget_view").innerHTML = html_element;
-}
-
-function update_feedbackView(appState) {
-  const html_element = render_widget(appState.current_model, appState.current_view)
-  document.querySelector("#widget_view").innerHTML = html_element;
-}
-
-function update_explanationView(appState) {
   const html_element = render_widget(appState.current_model, appState.current_view)
   document.querySelector("#widget_view").innerHTML = html_element;
 }
