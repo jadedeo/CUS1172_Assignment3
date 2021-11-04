@@ -1,41 +1,43 @@
 <html>
-  <head>
-    <!--BOOTSTRAP-->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+<head>
+  <!--BOOTSTRAP-->
 
-    <!--HANDLEBARS LIBRARY-->
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
-    <script src="quiz.js"> </script>
+  <!--HANDLEBARS LIBRARY-->
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
-  </head>
-  <body>
-    <div id="header">
-      <nav class= "toBold" id="titleBox">
-        <div class="container">
-          <a id="headerText"  href="#">COMP SCI QUIZ APPLICATION</a>
-        </div>
-      </nav>
-      <div id="timeBox">
-        <span>Time Elapsed:</span>
-        <span id="minutes">00</span>:<span id="seconds">00</span>
+  <script src="quiz.js"> </script>
+
+</head>
+
+<body>
+  <div id="header">
+    <nav id="titleBox">
+      <div class="container">
+        <h1 class="toBold" id="headerText">COMP SCI QUIZ APPLICATION</h1>
       </div>
+    </nav>
+    <div id="timeBox">
+      <span class="toBold">Time Elapsed:</span>
+      <span id="minutes">00</span>:<span id="seconds">00</span>
     </div>
-    <div id="widget_view" style="margin:50px">
+  </div>
+  <div id="widget_view" style="margin:50px">
 
-    </div>
+  </div>
 
-  </body>
+</body>
 
-  <!--VIEWS-->
+<!--VIEWS-->
 
-  <script id="intro_view" type="text/x-handlebars-template">
+<script id="intro_view" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
           <div class="col">
@@ -52,7 +54,7 @@
       </div>
   </script>
 
-  <script id="question_view_multiple_choice" type="text/x-handlebars-template">
+<script id="question_view_multiple_choice" type="text/x-handlebars-template">
     <div class="container">
       <div class="scoreRow">
         <div class="col">
@@ -76,7 +78,7 @@
     </div>
   </script>
 
-  <script id="question_view_true_false" type="text/x-handlebars-template">
+<script id="question_view_true_false" type="text/x-handlebars-template">
     <div class="container">
       <div class="scoreRow">
         <div class="col">
@@ -97,7 +99,7 @@
     </div>
   </script>
 
-  <script id="question_view_text_input" type="text/x-handlebars-template">
+<script id="question_view_text_input" type="text/x-handlebars-template">
     <div class="container">
       <div class="scoreRow">
         <div class="col">
@@ -116,7 +118,7 @@
     </div>
   </script>
 
-  <script id="question_view_multi_text_input" type="text/x-handlebars-template">
+<script id="question_view_multi_text_input" type="text/x-handlebars-template">
     <div class="container">
       <div class="scoreRow">
         <div class="col">
@@ -139,7 +141,7 @@
     </div>
   </script>
 
-  <script id="question_view_checkbox" type="text/x-handlebars-template">
+<script id="question_view_checkbox" type="text/x-handlebars-template">
     <div class="container">
       <div class="scoreRow">
         <div class="col">
@@ -150,11 +152,12 @@
         <div class="col">
           <div>
             <span class="toBold" style="text-align:center">{{this.questionText}} </span><br>
-            <input type="checkbox" id="{{this.options.[0]}}" data-action="answer" data-answer="{{this.options.[0]}}" value="{{this.options.[0]}}" name="box">{{this.options.[0]}}<br>
-            <input type="checkbox" id="{{this.options.[1]}}" data-action="answer" data-answer="{{this.options.[1]}}" value="{{this.options.[1]}}" name="box">{{this.options.[1]}}<br>
-            <input type="checkbox" id="{{this.options.[2]}}" data-action="answer" data-answer="{{this.options.[2]}}" value="{{this.options.[2]}}" name="box">{{this.options.[2]}}<br>
-            <input type="checkbox" id="{{this.options.[3]}}" data-action="answer" data-answer="{{this.options.[3]}}" value="{{this.options.[3]}}" name="box">{{this.options.[3]}}<br>
-
+            <div class="leftAlignChoices">
+              <input type="checkbox" id="{{this.options.[0]}}" data-action="answer" data-answer="{{this.options.[0]}}" value="{{this.options.[0]}}" name="box">{{this.options.[0]}}<br>
+              <input type="checkbox" id="{{this.options.[1]}}" data-action="answer" data-answer="{{this.options.[1]}}" value="{{this.options.[1]}}" name="box">{{this.options.[1]}}<br>
+              <input type="checkbox" id="{{this.options.[2]}}" data-action="answer" data-answer="{{this.options.[2]}}" value="{{this.options.[2]}}" name="box">{{this.options.[2]}}<br>
+              <input type="checkbox" id="{{this.options.[3]}}" data-action="answer" data-answer="{{this.options.[3]}}" value="{{this.options.[3]}}" name="box">{{this.options.[3]}}<br>
+            </div>
             <button class="btn bg-dark text-white float-right" data-action="submit">Submit</button>
           </div>
         </div>
@@ -162,7 +165,7 @@
     </div>
   </script>
 
-  <script id="end_view" type="text/x-handlebars-template">
+<script id="end_view" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
         <div class="col">
@@ -179,36 +182,36 @@
     </div>
   </script>
 
-  <script id="feedback_view_positive" type="text/x-handlebars-template">
+<script id="feedback_view_positive" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
           <div class="col">
             <div>
-              <span id="feedback_string">Correct :D</span>
+              <span class="toBold" id="feedback_string">Correct :D</span>
             </div>
           </div>
         </div>
       </div>
   </script>
 
-  <script id="feedback_view_negative" type="text/x-handlebars-template">
+<script id="feedback_view_negative" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
           <div class="col">
             <div>
-              <span id="feedback_string">Incorrect :|</span>
+              <span class="toBold" id="feedback_string">Incorrect :|</span>
             </div>
           </div>
         </div>
       </div>
   </script>
 
-  <script id="explanation_view" type="text/x-handlebars-template">
+<script id="explanation_view" type="text/x-handlebars-template">
     <div class="container">
       <div class="row">
           <div class="col">
             <div>
-              <span id="explanation_string">{{this.explanation}}</span><br><br><br>
+              <span class="toBold" id="explanation_string">{{this.explanation}}</span><br><br><br>
               <button id="okBtn" onclick="closeExplanation()" class="btn bg-dark text-white float-right">Ok</button>
             </div>
           </div>
