@@ -302,7 +302,6 @@ function updateQuestion(appState) {
 
 function setQuestionView(appState) {
   if (appState.current_question == -2) {
-    console.log("SET END VIEW");
     appState.current_view = "#end_view";
     return;
   }
