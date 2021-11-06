@@ -1,7 +1,7 @@
 /***
  * GLOBAL & STATE STUFF
  **/
-let totalQuestions = 3;
+let totalQuestions = 20;
 let totalSeconds = 0;
 let userName = "";
 
