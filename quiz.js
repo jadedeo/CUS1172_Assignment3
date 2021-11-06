@@ -1,6 +1,7 @@
 /***
  * GLOBAL & STATE STUFF
  **/
+let totalQuestions = 3;
 let totalSeconds = 0;
 let userName = "";
 
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * **/
 let minutesLabel = "";
 let secondsLabel = "";
-let timer;
+let timer = 0;
 
 function setTime() {
   ++totalSeconds;
@@ -227,16 +228,16 @@ function handle_widget_event(e) {
   }
 
   // Handle end
+  
   if (appState.current_view == "#end_view") {
     clearInterval(timer);
 
     let finalScore = +(((appState.total_correct / (appState.total_incorrect + appState.total_correct)) * 100).toFixed(2));
-    console.log("SCORE: " + finalScore);
     if (finalScore >= 80) {
-      document.getElementById("endMessage").innerHTML = "Final Score: " + finalScore + "%<br>Congrats, " + name + " - you passed!";
+      document.getElementById("endMessage").innerHTML = "Final Score: " + finalScore + "%<br>Congrats, " + userName + " - you passed!";
     }
     else {
-      document.getElementById("endMessage").innerHTML = "Final Score: " + finalScore + "%<br>Sorry, " + name + " - you failed.";
+      document.getElementById("endMessage").innerHTML = "Final Score: " + finalScore + "%<br>Sorry, " + userName + " - you failed.";
     }
 
     if (e.target.dataset.action == "main_page") {
@@ -268,6 +269,7 @@ function handle_widget_event(e) {
       fetch_question(appState.current_question + 1, appState.current_quiz);
     }
   }
+  
 }
 
 /**
@@ -288,7 +290,7 @@ function check_user_response(user_answer, model) {
 }
 
 function updateQuestion(appState) {
-  if (appState.current_question < 19) {
+  if (appState.current_question < (totalQuestions-1)) {
     appState.current_question = appState.current_question + 1;
     fetch_question(appState.current_question + 1, appState.current_quiz);
   }
@@ -300,6 +302,7 @@ function updateQuestion(appState) {
 
 function setQuestionView(appState) {
   if (appState.current_question == -2) {
+    console.log("SET END VIEW");
     appState.current_view = "#end_view";
     return;
   }
@@ -355,6 +358,7 @@ function displayExplanation(isCorrectVal) {
       updateQuestion(appState);
       setQuestionView(appState);
       update_view(appState);
+      document.getElementById('widget_view').click();
     });
   }
 }
@@ -370,6 +374,7 @@ function closeExplanation(e) {
  * **/
 function update_view(appState) {
   const html_element = render_widget(appState.current_model, appState.current_view)
+
   document.querySelector("#widget_view").innerHTML = html_element;
 }
 
