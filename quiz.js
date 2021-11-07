@@ -36,12 +36,12 @@ async function fetch_question(questionId, quizChoice) {
   setQuestionView(appState);
   update_view(appState);
 
-  document.getElementById("correctCount").innerHTML = appState.total_correct + appState.total_incorrect;
+  document.getElementById("questionsAnswered").innerHTML = appState.total_correct + appState.total_incorrect;
   if (questionId == 1) {
-    document.getElementById("incorrectCount").innerHTML = 0;
+    document.getElementById("currentScore").innerHTML = 0;
   }
   else {
-    document.getElementById("incorrectCount").innerHTML = +(((appState.total_correct / (appState.total_correct + appState.total_incorrect)) * 100).toFixed(2));
+    document.getElementById("currentScore").innerHTML = +(((appState.total_correct / (appState.total_correct + appState.total_incorrect)) * 100).toFixed(2));
   }
 
   return (data);
@@ -115,6 +115,7 @@ function handle_widget_event(e) {
       fetch_question(appState.current_question + 1, appState.current_quiz);
     }
   }
+  
   //Handle MC answer event
   if (appState.current_view == "#question_view_multiple_choice") {
     if (e.target.dataset.action == "submit") {
@@ -228,7 +229,6 @@ function handle_widget_event(e) {
   }
 
   // Handle end
-  
   if (appState.current_view == "#end_view") {
     clearInterval(timer);
 
